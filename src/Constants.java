@@ -10,7 +10,7 @@ public class Constants {
     public static final int COMBO_BOX_WIDTH = 80;
     public static final int COMBO_BOX_HEIGHT = 30;
 
-    public static final int BUTTON_WIDTH = 100;
+    public static final int BUTTON_WIDTH = 125;
     public static final int BUTTON_HEIGHT = 30;
     public static final int BUTTON_X = 250;
     public static final int BUTTON_Y= 500;
@@ -36,7 +36,7 @@ public class Constants {
     public static final String PATH_TO_CSV_FILE_NUMBER = "src/data/csvFileCounter.txt";
     public static final int PASSENGER_TICKET_FIELD_WIDTH = 100;
     public static final int LABEL_PADDING_RIGHT = 5;
-    public static final String[] PASSENGER_EMBARKED_OPTIONS = { "All", "S", "Q","C"};
+    public static final String[] PASSENGER_EMBARKED_OPTIONS = { "All", "C", "Q","S"};
     public static final int MAX_FILTERS = 12;
     public static final int PCLASS_FILTER = 0;
     public static final int MIN_ID_FILTER = 1;

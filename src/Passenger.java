@@ -43,7 +43,7 @@ public class Passenger {
             }
             this.cabin = data[Constants.CABIN];
             if (data.length == 13) {
-                this.embarked = getEmbarked(data[Constants.EMBARKED]);
+                this.embarked = data[Constants.EMBARKED];
             } else this.embarked = Constants.NULL_EMBARKED + "";
         } catch (Exception e) {
             System.out.println(this.passengerId + " problem reading file");
@@ -86,7 +86,7 @@ public class Passenger {
         }
         return result;
     }
-    private String getEmbarked(String embarked) {
+    public String getEmbarked() {
         return embarked;
     }
 
@@ -155,10 +155,7 @@ public class Passenger {
     public boolean matchesEmbarked(String embarked) {
         return embarked.equalsIgnoreCase(this.embarked);
     }
-    public boolean survived() {
+    public boolean isSurvived() {
         return this.survived==Constants.SURVIVED;
-    }
-    public int getSurvived() {
-        return survived;
     }
 }

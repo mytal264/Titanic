@@ -125,7 +125,7 @@ public class ManageScreen extends JPanel {
                 printFilterResult(filterOutput,filterOutputLabel);
             });
             JButton stats = new JButton("CREATE STATS");
-            stats.setBounds(filter.getX(),filter.getY()-Constants.BUTTON_HEIGHT,Constants.BUTTON_WIDTH,Constants.BUTTON_HEIGHT-10);
+            stats.setBounds(filter.getX(),filter.getY()-Constants.BUTTON_HEIGHT,Constants.BUTTON_WIDTH,Constants.BUTTON_HEIGHT);
             this.add(stats);
             stats.addActionListener(e -> {
                 Stats stats1 = new Stats();
@@ -282,11 +282,11 @@ public class ManageScreen extends JPanel {
         String output = Constants.FILTER_OUTPUT_BASE;
         int survivedCounter=0;
         for (Passenger passenger : result) {
-            if (passenger.survived()) {
+            if (passenger.isSurvived()) {
                 survivedCounter++;
             }
         }
-        output+=result.size() + "("+survivedCounter+" survived, "+ (result.size()-survivedCounter) + " didn't survived)";
+        output+=result.size() + "("+survivedCounter+" survived, "+ (result.size()-survivedCounter) + " did not)";
         return output;
     }
 
