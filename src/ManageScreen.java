@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 
 public class ManageScreen extends JPanel {
@@ -8,6 +9,7 @@ public class ManageScreen extends JPanel {
 
     private JComboBox<String> passengerEmbarkedComboBox;
     private JComboBox<String> sexOfPassengerComboBox;
+    private JComboBox<String> dataGroupingComboBox;
     private ArrayList<Passenger> allPassengers;
     private JTextField minPassengerIdField;
     private JTextField maxPassengerIdField;
@@ -114,6 +116,16 @@ public class ManageScreen extends JPanel {
             filterOutputLabel.setBounds(Constants.BUTTON_X,Constants.BUTTON_Y+50,Constants.LABEL_WIDTH*3,Constants.LABEL_HEIGHT);
             this.add(filterOutputLabel);
 
+            JLabel dataGroupingLabel = new JLabel("Data Grouping: ");
+            dataGroupingLabel.setBounds(passengerEmbarkedLabel.getX(), passengerEmbarkedLabel.getY() + this.passengerEmbarkedComboBox.getHeight()+Constants.MARGIN_FROM_TOP, Constants.LABEL_WIDTH, Constants.LABEL_HEIGHT);
+            this.add(dataGroupingLabel);
+            this.dataGroupingComboBox = new JComboBox<>(Constants.DATA_GROUPING_CATEGORIES);
+            this.dataGroupingComboBox.setBounds(dataGroupingLabel.getX() + dataGroupingLabel.getWidth() + 1, dataGroupingLabel.getY(), Constants.COMBO_BOX_WIDTH, Constants.COMBO_BOX_HEIGHT);
+            this.add(this.dataGroupingComboBox);
+            dataGroupingComboBox.addActionListener(e -> {
+                String selectCategory = (String) dataGroupingComboBox.getSelectedItem();
+                dataGroupingPressed(selectCategory);
+            });
             JButton filter = new JButton("FILTER");
             filter.setBounds(Constants.BUTTON_X, Constants.BUTTON_Y, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT);
             this.add(filter);
@@ -131,6 +143,52 @@ public class ManageScreen extends JPanel {
                 Stats stats1 = new Stats();
                 stats1.writeSurvivalRatesToFile(allPassengers,createFile(Constants.TXT_FINISHER));
             });
+        }
+    }
+
+    private void dataGroupingPressed (String selectCategory){
+        Stats stats1 = new Stats();
+        Map<String , Float> dataGrouping = stats1.dataGrouping(allPassengers);
+        System.out.println();
+        switch (selectCategory){
+            case Constants.SURVIVED_WORD -> {
+                System.out.println("Not Survived: " + dataGrouping.get("Not Survived"));
+                System.out.println("Survived: " + dataGrouping.get("Survived"));
+            }
+            case Constants.PCLASS_WORD -> {
+                System.out.println(Constants.GROUP_LABELS[2]+": " + dataGrouping.get(Constants.GROUP_LABELS[2]));
+                System.out.println(Constants.GROUP_LABELS[0]+": " + dataGrouping.get(Constants.GROUP_LABELS[0]));
+                System.out.println(Constants.GROUP_LABELS[1]+": " + dataGrouping.get(Constants.GROUP_LABELS[1]));
+            }
+            case Constants.SEX_WORD -> {
+                System.out.println(Constants.GROUP_LABELS[3]+": " + dataGrouping.get(Constants.GROUP_LABELS[3]));
+                System.out.println(Constants.GROUP_LABELS[4]+": " + dataGrouping.get(Constants.GROUP_LABELS[4]));
+            }
+            case Constants.AGE_WORD -> {
+                System.out.println(Constants.GROUP_LABELS[7]+": " + dataGrouping.get(Constants.GROUP_LABELS[7]));
+                System.out.println(Constants.GROUP_LABELS[8]+": " + dataGrouping.get(Constants.GROUP_LABELS[8]));
+                System.out.println(Constants.GROUP_LABELS[6]+": " + dataGrouping.get(Constants.GROUP_LABELS[6]));
+                System.out.println(Constants.GROUP_LABELS[9]+": " + dataGrouping.get(Constants.GROUP_LABELS[9]));
+                System.out.println(Constants.GROUP_LABELS[5]+": " + dataGrouping.get(Constants.GROUP_LABELS[5]));
+                System.out.println(Constants.GROUP_LABELS[10]+": " + dataGrouping.get(Constants.GROUP_LABELS[10]));
+            }
+            case Constants.HAS_RELATIVES -> {
+                System.out.println(Constants.GROUP_LABELS[12]+": " + dataGrouping.get(Constants.GROUP_LABELS[12]));
+                System.out.println(Constants.GROUP_LABELS[11]+": " + dataGrouping.get(Constants.GROUP_LABELS[11]));
+            }
+            case Constants.FARE_WORD -> {
+                System.out.println(Constants.GROUP_LABELS[13]+": " + dataGrouping.get(Constants.GROUP_LABELS[13]));
+                System.out.println(Constants.GROUP_LABELS[14]+": " + dataGrouping.get(Constants.GROUP_LABELS[14]));
+                System.out.println(Constants.GROUP_LABELS[15]+": " + dataGrouping.get(Constants.GROUP_LABELS[15]));
+            }
+            case Constants.EMBARKED_WORD -> {
+                System.out.println(Constants.GROUP_LABELS[18]+": " + dataGrouping.get(Constants.GROUP_LABELS[18]));
+                System.out.println(Constants.GROUP_LABELS[16]+": " + dataGrouping.get(Constants.GROUP_LABELS[16]));
+                System.out.println(Constants.GROUP_LABELS[17]+": " + dataGrouping.get(Constants.GROUP_LABELS[17]));
+            }
+            case Constants.CHOOSE -> {}
+            case null -> {}
+            default -> throw new IllegalStateException("Unexpected value: " + selectCategory);
         }
     }
 

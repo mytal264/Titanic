@@ -37,6 +37,19 @@ public class Constants {
     public static final int PASSENGER_TICKET_FIELD_WIDTH = 100;
     public static final int LABEL_PADDING_RIGHT = 5;
     public static final String[] PASSENGER_EMBARKED_OPTIONS = { "All", "C", "Q","S"};
+    public static final String CHOOSE = "Choose";
+    public static final String SURVIVED_WORD = "Survived";
+    public static final String PCLASS_WORD = "PClass";
+    public static final String SEX_WORD = "Sex";
+    public static final String AGE_WORD = "Age";
+    public static final String HAS_RELATIVES = "Has Relatives";
+    public static final String FARE_WORD = "Fare";
+    public static final String EMBARKED_WORD = "Embarked";
+    public static final String[] DATA_GROUPING_CATEGORIES = {CHOOSE, SURVIVED_WORD, PCLASS_WORD, SEX_WORD, AGE_WORD, HAS_RELATIVES, FARE_WORD, EMBARKED_WORD};
+    public static final String[] GROUP_LABELS = {"First Class", "Second Class", "Third Class", "Male", "Female",
+            "Ages 0-10", "Ages 11-20", "Ages 21-30", "Ages 31-40", "Ages 41-50", "Ages 51+", "Has Relatives", "Has No Relatives",
+            "Fare under $10", "Fare $11-$30", "Fare $31+", "Embarked at C", "Embarked at Q", "Embarked at S"
+    };
     public static final int MAX_FILTERS = 12;
     public static final int PCLASS_FILTER = 0;
     public static final int MIN_ID_FILTER = 1;
@@ -57,5 +70,5 @@ public class Constants {
     public static final boolean MAX_TICKET_COST_VALUE = true;
     public static final String FILTER_PATH_NEW_FILE = "src/data/";
     public static final String FILTER_OUTPUT_BASE = "Total Rows:";
-    public static final String STATS_NAME = "stats";
+    public static final String STATS_NAME = "Statistics";
 }
