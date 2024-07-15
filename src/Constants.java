@@ -39,6 +39,7 @@ public class Constants {
     public static final String[] PASSENGER_EMBARKED_OPTIONS = { "All", "C", "Q","S"};
     public static final String CHOOSE = "Choose";
     public static final String SURVIVED_WORD = "Survived";
+    public static final String NOT_SURVIVED = "Not Survived";
     public static final String PCLASS_WORD = "PClass";
     public static final String SEX_WORD = "Sex";
     public static final String AGE_WORD = "Age";

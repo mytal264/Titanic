@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Map;
@@ -113,18 +114,22 @@ public class ManageScreen extends JPanel {
             this.passengerEmbarkedComboBox.setBounds(minPassengerIdLabel.getX() + passengerEmbarkedLabel.getWidth() + 1, passengerEmbarkedLabel.getY(), Constants.COMBO_BOX_WIDTH, Constants.COMBO_BOX_HEIGHT);
             this.add(passengerEmbarkedComboBox);
             JLabel filterOutputLabel = new JLabel();
+
             filterOutputLabel.setBounds(Constants.BUTTON_X,Constants.BUTTON_Y+50,Constants.LABEL_WIDTH*3,Constants.LABEL_HEIGHT);
             this.add(filterOutputLabel);
 
+            JTextArea groupByText = new JTextArea();
             JLabel dataGroupingLabel = new JLabel("Data Grouping: ");
             dataGroupingLabel.setBounds(passengerEmbarkedLabel.getX(), passengerEmbarkedLabel.getY() + this.passengerEmbarkedComboBox.getHeight()+Constants.MARGIN_FROM_TOP, Constants.LABEL_WIDTH, Constants.LABEL_HEIGHT);
             this.add(dataGroupingLabel);
             this.dataGroupingComboBox = new JComboBox<>(Constants.DATA_GROUPING_CATEGORIES);
             this.dataGroupingComboBox.setBounds(dataGroupingLabel.getX() + dataGroupingLabel.getWidth() + 1, dataGroupingLabel.getY(), Constants.COMBO_BOX_WIDTH, Constants.COMBO_BOX_HEIGHT);
             this.add(this.dataGroupingComboBox);
+            Stats stats1 = new Stats();
+            Map<String , Float> dataGrouping = stats1.dataGrouping(allPassengers);
             dataGroupingComboBox.addActionListener(e -> {
                 String selectCategory = (String) dataGroupingComboBox.getSelectedItem();
-                dataGroupingPressed(selectCategory);
+                dataGroupingPressed(selectCategory,dataGrouping,groupByText);
             });
             JButton filter = new JButton("FILTER");
             filter.setBounds(Constants.BUTTON_X, Constants.BUTTON_Y, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT);
@@ -140,55 +145,59 @@ public class ManageScreen extends JPanel {
             stats.setBounds(filter.getX(),filter.getY()-Constants.BUTTON_HEIGHT,Constants.BUTTON_WIDTH,Constants.BUTTON_HEIGHT);
             this.add(stats);
             stats.addActionListener(e -> {
-                Stats stats1 = new Stats();
-                stats1.writeSurvivalRatesToFile(allPassengers,createFile(Constants.TXT_FINISHER));
+                Stats stats2 = new Stats();
+                stats2.writeSurvivalRatesToFile(allPassengers,createFile(Constants.TXT_FINISHER));
             });
         }
     }
 
-    private void dataGroupingPressed (String selectCategory){
-        Stats stats1 = new Stats();
-        Map<String , Float> dataGrouping = stats1.dataGrouping(allPassengers);
-        System.out.println();
+    private void dataGroupingPressed (String selectCategory,Map<String , Float> dataGrouping,JTextArea groupByText){
+        String output= "";
         switch (selectCategory){
             case Constants.SURVIVED_WORD -> {
-                System.out.println("Not Survived: " + dataGrouping.get("Not Survived"));
-                System.out.println("Survived: " + dataGrouping.get("Survived"));
+                output+=Constants.NOT_SURVIVED+": " + dataGrouping.get(Constants.NOT_SURVIVED) +"%\n"+Constants.SURVIVED_WORD+": " + dataGrouping.get(Constants.SURVIVED_WORD)+"%";
+                printGroupBy(output,groupByText);
             }
             case Constants.PCLASS_WORD -> {
-                System.out.println(Constants.GROUP_LABELS[2]+": " + dataGrouping.get(Constants.GROUP_LABELS[2]));
-                System.out.println(Constants.GROUP_LABELS[0]+": " + dataGrouping.get(Constants.GROUP_LABELS[0]));
-                System.out.println(Constants.GROUP_LABELS[1]+": " + dataGrouping.get(Constants.GROUP_LABELS[1]));
-            }
+                output+=outputMaker(2,dataGrouping)+outputMaker(0,dataGrouping)+ outputMaker(1,dataGrouping);
+                printGroupBy(output,groupByText);}
             case Constants.SEX_WORD -> {
-                System.out.println(Constants.GROUP_LABELS[3]+": " + dataGrouping.get(Constants.GROUP_LABELS[3]));
-                System.out.println(Constants.GROUP_LABELS[4]+": " + dataGrouping.get(Constants.GROUP_LABELS[4]));
-            }
+                output+=outputMaker(3,dataGrouping)+outputMaker(4,dataGrouping);
+                printGroupBy(output,groupByText); }
             case Constants.AGE_WORD -> {
-                System.out.println(Constants.GROUP_LABELS[7]+": " + dataGrouping.get(Constants.GROUP_LABELS[7]));
-                System.out.println(Constants.GROUP_LABELS[8]+": " + dataGrouping.get(Constants.GROUP_LABELS[8]));
-                System.out.println(Constants.GROUP_LABELS[6]+": " + dataGrouping.get(Constants.GROUP_LABELS[6]));
-                System.out.println(Constants.GROUP_LABELS[9]+": " + dataGrouping.get(Constants.GROUP_LABELS[9]));
-                System.out.println(Constants.GROUP_LABELS[5]+": " + dataGrouping.get(Constants.GROUP_LABELS[5]));
-                System.out.println(Constants.GROUP_LABELS[10]+": " + dataGrouping.get(Constants.GROUP_LABELS[10]));
-            }
+                output+=outputMaker(7,dataGrouping)+outputMaker(8,dataGrouping)+ outputMaker(6,dataGrouping)+
+                        outputMaker(9,dataGrouping)+ outputMaker(5,dataGrouping)+outputMaker(10,dataGrouping);
+                printGroupBy(output,groupByText);}
             case Constants.HAS_RELATIVES -> {
-                System.out.println(Constants.GROUP_LABELS[12]+": " + dataGrouping.get(Constants.GROUP_LABELS[12]));
-                System.out.println(Constants.GROUP_LABELS[11]+": " + dataGrouping.get(Constants.GROUP_LABELS[11]));
-            }
+                output+=outputMaker(12,dataGrouping)+outputMaker(11,dataGrouping);
+                printGroupBy(output,groupByText); }
             case Constants.FARE_WORD -> {
-                System.out.println(Constants.GROUP_LABELS[13]+": " + dataGrouping.get(Constants.GROUP_LABELS[13]));
-                System.out.println(Constants.GROUP_LABELS[14]+": " + dataGrouping.get(Constants.GROUP_LABELS[14]));
-                System.out.println(Constants.GROUP_LABELS[15]+": " + dataGrouping.get(Constants.GROUP_LABELS[15]));
-            }
+                output+=outputMaker(13,dataGrouping)+outputMaker(14,dataGrouping)+ outputMaker(15,dataGrouping);
+                printGroupBy(output,groupByText);  }
             case Constants.EMBARKED_WORD -> {
-                System.out.println(Constants.GROUP_LABELS[18]+": " + dataGrouping.get(Constants.GROUP_LABELS[18]));
-                System.out.println(Constants.GROUP_LABELS[16]+": " + dataGrouping.get(Constants.GROUP_LABELS[16]));
-                System.out.println(Constants.GROUP_LABELS[17]+": " + dataGrouping.get(Constants.GROUP_LABELS[17]));
-            }
+                output+=outputMaker(18,dataGrouping)+outputMaker(16,dataGrouping)+ outputMaker(17,dataGrouping);
+                printGroupBy(output,groupByText); }
             case Constants.CHOOSE -> {}
             case null -> {}
             default -> throw new IllegalStateException("Unexpected value: " + selectCategory);
+        }
+    }
+
+    private String outputMaker (int i,Map<String , Float> dataGrouping){
+        return "\n"+Constants.GROUP_LABELS[i]+": " + dataGrouping.get(Constants.GROUP_LABELS[i])+"%";
+    }
+    private void printGroupBy( String groupByOutput,JTextArea groupByText) {
+        if (!groupByOutput.isEmpty()) {
+            groupByText.setText(groupByOutput);
+            groupByText.setWrapStyleWord(true);
+            groupByText.setLineWrap(true);
+            groupByText.setMargin(new Insets(10, 30, 10, 10));
+            groupByText.setBounds(50, Constants.BUTTON_Y, 200, 250);
+            if (!this.isAncestorOf(groupByText)) {
+                this.add(groupByText);
+            }
+            this.revalidate();
+            this.repaint();
         }
     }
 
@@ -319,6 +328,7 @@ public class ManageScreen extends JPanel {
                     }
                 }
                 if (!keepFilteringPassenger) {
+                    //noinspection SuspiciousListRemoveInLoop
                     result.remove(i);
                     result.add(i,null);
                 }

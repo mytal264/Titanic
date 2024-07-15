@@ -101,7 +101,7 @@ public class Stats {
         try (PrintWriter writer = new PrintWriter(file)) {
             for (int i = 0; i < groupCounts.length; i++) {
                 double survivalRate = ((double) groupSurvivedCounts[i] / (double) groupCounts[i]) * 100.0;
-                writer.println(Constants.GROUP_LABELS[i] + ": " + String.format("%.2f", survivalRate) + "% survived");
+                writer.println(Constants.GROUP_LABELS[i] + ": " + String.format("%.2f", survivalRate) + "% "+Constants.SURVIVED);
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + e.getMessage());
@@ -119,27 +119,11 @@ public class Stats {
                 survived++;
             } else notSurvived++;
         }
-        dataGrouping.put("Not Survived", ((float) notSurvived / totalPassengers * 100));
-        dataGrouping.put("Survived", ((float) survived / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[0], ((float) groupCounts[0] / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[1], ((float) groupCounts[1] / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[2], ((float) groupCounts[2] / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[3], ((float) groupCounts[3] / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[4], ((float) groupCounts[4] / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[5], ((float) groupCounts[5] / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[6], ((float) groupCounts[6] / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[7], ((float) groupCounts[7] / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[8], ((float) groupCounts[8] / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[9], ((float) groupCounts[9] / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[10], ((float) groupCounts[10] / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[11], ((float) groupCounts[11] / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[12], ((float) groupCounts[12] / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[13], ((float) groupCounts[13] / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[14], ((float) groupCounts[14] / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[15], ((float) groupCounts[15] / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[16], ((float) groupCounts[16] / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[17], ((float) groupCounts[17] / totalPassengers * 100));
-        dataGrouping.put(Constants.GROUP_LABELS[18], ((float) groupCounts[18] / totalPassengers * 100));
+        dataGrouping.put(Constants.NOT_SURVIVED, ((float) notSurvived / totalPassengers * 100));
+        dataGrouping.put(Constants.SURVIVED_WORD, ((float) survived / totalPassengers * 100));
+        for (int i=0;i<Constants.GROUP_LABELS.length;i++) {
+            dataGrouping.put(Constants.GROUP_LABELS[i], ((float) groupCounts[i] / totalPassengers * 100));
+        }
         return dataGrouping;
     }
 }

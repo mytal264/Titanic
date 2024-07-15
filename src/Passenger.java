@@ -58,7 +58,6 @@ public class Passenger {
         String output = firstName.substring(firstName.indexOf(SUBSTRING_CHAR) + 1) + lastName;
         output = output.replace('"', ' ');
         return output;
-
     }
 
     public int getPClass() {
@@ -82,7 +81,7 @@ public class Passenger {
     private Boolean isMale(String sex) {
         Boolean result = null;
         if (sex != null) {
-            result = sex.equalsIgnoreCase("male");
+            result = sex.equalsIgnoreCase(Constants.PASSENGER_SEX_OPTIONS[2]);
         }
         return result;
     }
@@ -92,23 +91,23 @@ public class Passenger {
 
     @Override
     public String toString() {
-        String output = this.passengerId + ",";
-        output += this.survived + ",";
-        output += this.pClass + ",";
-        output += this.name + ",";
-        output += (this.male)? "male,": "female,";
+        String output = this.passengerId + ", ";
+        output += this.survived + ", ";
+        output += this.pClass + ", ";
+        output += this.name + ", ";
+        output += (this.male)? Constants.PASSENGER_SEX_OPTIONS[2]: Constants.PASSENGER_SEX_OPTIONS[1];
         if (this.age==Constants.NULL_AGE) {
-            output += ",";
+            output += ", ";
         } else {
-            output += this.age + ",";
+            output += ", " + this.age + ", ";
         }
-        output += this.sibSp + "," + this.parch + "," + this.ticket + ",";
-        output += this.fare + "," + this.cabin + "," + this.embarked;
+        output += this.sibSp + ", " + this.parch + ", " + this.ticket + ", ";
+        output += this.fare + ", " + this.cabin + ", " + this.embarked;
         return output;
     }
 
     public boolean matchesPClass(String pClass) {
-        String classNumber = pClass.replaceAll("\\D", ""); // Remove non-digit characters
+        String classNumber = pClass.replaceAll("\\D", "");
         return Integer.parseInt(classNumber) == this.pClass;
     }
     public boolean matchesPassengerId(String minId, String maxId) {
@@ -126,8 +125,7 @@ public class Passenger {
     }
     public boolean matchesSex(String sex) {
         boolean compare;
-        final String MALE = "male";
-        compare = sex.equalsIgnoreCase(MALE);
+        compare = sex.equalsIgnoreCase(Constants.PASSENGER_SEX_OPTIONS[2]);
         return compare == this.male;
     }
     public boolean matchesSibSp(String sibSp) {
